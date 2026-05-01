@@ -76,6 +76,39 @@ python backtest.py --ticker 006208.TW --start 2019-01 --end 2026-04 --monthly 50
 | `output/smart_dca.csv` | Month-by-month Smart DCA ledger with multipliers |
 | `output/backtest.png` | Dual-panel chart (portfolio value + multiplier history) |
 
+## Discussion: Why "+0.45% Edge" Is Misleading
+
+A reader might conclude Smart DCA "wins" thanks to a higher annualised return.
+But this comparison has a subtle flaw worth understanding.
+
+**Smart DCA invested 18% less capital, not the same capital differently.**
+
+The CAGR formula `(final/invested)^(1/years) - 1` implicitly treats invested
+capital as a single lump sum. When two strategies invest different total
+amounts, comparing their CAGRs is misleading.
+
+A fair comparison: assume the 77,405 TWD that Smart DCA *didn't* invest sat
+in a money market fund earning ~1.5% annually. Over 14 years, that becomes
+roughly 95,000 TWD.
+
+| Strategy | Final value (in market) | True final value (incl. uninvested cash) |
+|---|---|---|
+| Pure DCA | 1,658,784 | 1,658,784 |
+| Smart DCA | 1,423,172 | 1,423,172 + ~95,000 = ~1,518,172 |
+
+**On a like-for-like basis, Pure DCA outperforms Smart DCA by ~140,000 TWD.**
+
+The right metric for DCA is XIRR (money-weighted return), not CAGR.
+This will be added in a future version.
+
+### What I learned
+
+I started this expecting Smart DCA to win because the multiplier "buys low,
+buys less when expensive." The backtest told me otherwise — but only after
+I noticed the CAGR was comparing apples to oranges. The lesson:
+
+> A backtest is only as honest as the metric you choose to look at.
+
 ## Caveats
 
 - **CAGR approximation**: uses `(final/invested)^(1/years) - 1`, not XIRR. True money-weighted return (XIRR) would be slightly lower because early capital compounds the longest.
