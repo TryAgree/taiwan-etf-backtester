@@ -14,6 +14,7 @@ Backtest two dollar-cost averaging strategies on any Taiwan ETF (default: **0050
 | Max drawdown | -24.80% | **-22.45%** |
 
 Smart DCA invested **18% less capital** while delivering **+0.45% higher annualised return** and a shallower drawdown.
+⚠️ That +0.45% figure is misleading — the two strategies didn't invest the same total amount. See [Discussion: Why "+0.45% Edge" Is Misleading](#discussion-why-045-edge-is-misleading).
 
 ![Backtest chart](output/backtest.png)
 
